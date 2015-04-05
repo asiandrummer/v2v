@@ -20,10 +20,10 @@ public class JgroupsServlet  extends HttpServlet
 {
 
 	private static JgroupsRpc jrpc;
-	
+
 	public void init()
 	{
-		
+
 		System.setProperty("java.net.preferIPv4Stack" , "true");
 		jrpc=new JgroupsRpc();
         try {
@@ -43,13 +43,16 @@ public class JgroupsServlet  extends HttpServlet
 	public void doGet( HttpServletRequest req, HttpServletResponse rsp )
 			throws ServletException, IOException
 	{
-		doPost(req,rsp);
+		//doPost(req,rsp);
+                rsp.setContentType("text/html");
+                PrintWriter pw = rsp.getWriter();
+                pw.write("test get ok");
 
 	}
 	public void doPost( HttpServletRequest req, HttpServletResponse rsp )
 			throws ServletException, IOException
 	{
-		
+
 		  //This is How to submit an object <SystemInfo> for processing into jgroups rpc
         RspList<VehicleDistance> rsp_list=jrpc.dispatch(ResponseMode.GET_ALL, 5000, new VehicleDistance(), VehicleDistance.class);
         List<VehicleDistance> it= rsp_list.getResults();
