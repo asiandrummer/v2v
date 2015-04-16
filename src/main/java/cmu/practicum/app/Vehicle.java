@@ -15,23 +15,11 @@ import cmu.practicum.JgroupsRpc;
 /*
  * Sample object which can be submitted into jgroups rpc for processing
 */
-public class VehicleDistance extends CommonAPI {
-	
-	public int distance;
-		
-	public String vehiclename;
+public class Vehicle extends CommonAPI {
 
-	public void execute() {
-		Random rdn = new Random();
-		this.distance=rdn.nextInt(6);
-		try {
-			this.vehiclename=java.net.InetAddress.getLocalHost().getHostName();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-	}
+  public void execute() {
+  }
 
-
+  public void addVehicle() {
+  }
 }
