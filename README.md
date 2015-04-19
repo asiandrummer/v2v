@@ -8,6 +8,7 @@ This Java application demonstrates a node in the mobile cloud middleware. Compos
 
 # Compilation
 `mvn clean install`
+
 This command will create the compiled .jar file with dependencies.
 
 ## Poor Man's Installation
