@@ -1,5 +1,5 @@
-# v2v
-a v2v example repo
+# Toyota Vehicle-to-Vehicle Mobile Cloud Node
+This Java application demonstrates a node in the mobile cloud middleware. Composed of Java Servlet and JGroups RPC instance, a node may instantiate a cluster of other nodes, which then can send/receive messages to compute shared information ready to be accessed by client applications.
 
 # Pre-requisite
 1. Apache Tomcat 7+ installed
