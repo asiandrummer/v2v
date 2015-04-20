@@ -50,10 +50,15 @@ public class JgroupsServlet  extends HttpServlet {
       Vehicle.class
     );
     List<Vehicle> it = rsp_list.getResults();
+
+    float avgSpeed = 0;
     for (Vehicle sinfo: it){
       pw.println("Vehicle Name: " + sinfo.getVehicleName());
-      pw.println("Vehicle Speen: " + sinfo.getSpeed());
+      avgSpeed += sinfo.getSpeed();
     }
+    avgSpeed = avgSpeed / it.size();
+    pw.println("Average Speed: " + avgSpeed);
+
     pw.println(jrpc.getChannelView());
   }
 
