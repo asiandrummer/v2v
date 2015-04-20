@@ -37,7 +37,7 @@ public class JgroupsServlet  extends HttpServlet {
   public void doGet(HttpServletRequest req, HttpServletResponse rsp)
     throws ServletException, IOException {
     rsp.setHeader("Access-Control-Allow-Origin", "*");
-    rsp.setContentType("text/html");
+    rsp.setContentType("application/json");
     jrpc.join();
 
     PrintWriter pw = rsp.getWriter();
@@ -51,31 +51,24 @@ public class JgroupsServlet  extends HttpServlet {
     );
     List<Vehicle> it = rsp_list.getResults();
 
+    String vehicleNames = "";
     float avgSpeed = 0;
     for (Vehicle sinfo: it){
-      pw.println("Vehicle Name: " + sinfo.getVehicleName());
+      vehicleNames += sinfo.getVehicleName() + " ";
       avgSpeed += sinfo.getSpeed();
     }
     avgSpeed = avgSpeed / it.size();
-    pw.println("Average Speed: " + avgSpeed);
+    vehicleNames = vehicleNames.trim();
 
-    pw.println(jrpc.getChannelView());
+    pw.println("{");
+    pw.println("\"names\": \"" + vehicleNames + "\", ");
+    pw.println("\"average_speed\": \"" + avgSpeed + "\"");
+    pw.println("}");
   }
 
   public void doPost(HttpServletRequest req, HttpServletResponse rsp)
     throws ServletException, IOException {
     rsp.setHeader("Access-Control-Allow-Origin", "*");
     rsp.setContentType("html/text");
-    HashMap<String, Integer> list = new HashMap<String, Integer>();
-    list.put(req.getParameter("name"), Integer.parseInt(req.getParameter("speed")));
-    RspList<HashMap> rsp_list =
-      jrpc.dispatch(ResponseMode.GET_ALL, 5000, "addVehicle", list, HashMap.class);
-    List<HashMap> it = rsp_list.getResults();
-    PrintWriter pw = rsp.getWriter();
-    pw.println(req.getParameter("name") + " received");
-    for (HashMap sinfo : it) {
-      pw.println(sinfo.keySet());
-      pw.println(sinfo.values());
-    }
   }
 }
