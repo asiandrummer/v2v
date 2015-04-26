@@ -11,4 +11,7 @@ public class CommonAPI<T> implements Serializable {
   public void execute() {
     /* stub for extending classes using generics*/
   }
+
+  public void setSpeed() {
+  }
 }

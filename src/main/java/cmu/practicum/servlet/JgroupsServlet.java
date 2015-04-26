@@ -38,7 +38,6 @@ public class JgroupsServlet  extends HttpServlet {
     throws ServletException, IOException {
     rsp.setHeader("Access-Control-Allow-Origin", "*");
     rsp.setContentType("application/json");
-    jrpc.join();
 
     PrintWriter pw = rsp.getWriter();
 
@@ -69,6 +68,32 @@ public class JgroupsServlet  extends HttpServlet {
   public void doPost(HttpServletRequest req, HttpServletResponse rsp)
     throws ServletException, IOException {
     rsp.setHeader("Access-Control-Allow-Origin", "*");
-    rsp.setContentType("html/text");
+    rsp.setContentType("application/json");
+
+    PrintWriter pw = rsp.getWriter();
+    jrpc.send("test message");
+
+    RspList<Vehicle> rsp_list = jrpc.dispatch(
+      ResponseMode.GET_ALL,
+      5000,
+      "getVehicle",
+      new Vehicle(),
+      Vehicle.class
+    );
+    List<Vehicle> it = rsp_list.getResults();
+
+    String vehicleNames = "";
+    float avgSpeed = 0;
+    for (Vehicle sinfo: it){
+      vehicleNames += sinfo.getVehicleName() + " ";
+      avgSpeed += sinfo.getSpeed();
+    }
+    avgSpeed = avgSpeed / it.size();
+    vehicleNames = vehicleNames.trim();
+
+    pw.println("{");
+    pw.println("\"names\": \"" + vehicleNames + "\", ");
+    pw.println("\"average_speed\": \"" + avgSpeed + "\"");
+    pw.println("}");
   }
 }

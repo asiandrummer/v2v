@@ -34,6 +34,10 @@ public class Vehicle extends CommonAPI {
     return this.vehicleName;
   }
 
+  public void setSpeed(int speed) {
+    this.speed = speed;
+  }
+
   public void execute() {
     Random rdn = new Random();
     this.speed = rdn.nextInt(30) + 50;
