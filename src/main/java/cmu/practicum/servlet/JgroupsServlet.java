@@ -98,6 +98,7 @@ public class JgroupsServlet  extends HttpServlet {
     );
 
     List<Vehicle> it = rsp_list.getResults();
+    jrpc.send("test");
 
     String vehicleNames = "";
     String alertMessage = "";
@@ -106,10 +107,11 @@ public class JgroupsServlet  extends HttpServlet {
 
     for (Vehicle sinfo: it){
       vehicleNames += sinfo.getVehicleName() + " ";
+      /*
       if (sinfo.getVehicleName().compareTo(java.net.InetAddress.getLocalHost().getHostName()) == 0) {
         sinfo.setSpeed(speed);
         sinfo.setHasAlert(hasAlert);
-      }
+      }*/
 
       if (sinfo.getHasAlert() != null &&
           sinfo.getHasAlert().compareTo("false") != 0) {
@@ -120,7 +122,6 @@ public class JgroupsServlet  extends HttpServlet {
 
       avgSpeed += sinfo.getSpeed();
     }
-    System.out.println(vehicleNames);
     avgSpeed = avgSpeed / it.size();
     vehicleNames = vehicleNames.trim();
     alertMessage = alertMessage.trim();

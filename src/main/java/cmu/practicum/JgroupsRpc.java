@@ -25,26 +25,27 @@ public class JgroupsRpc extends ReceiverAdapter {
     public void start() throws Exception {
       vehicles = new HashMap<String, Integer>();
       channel  = new JChannel(props);
-      disp     = new RpcDispatcher(channel, this);
+      channel.setReceiver(new ReceiverAdapter() {
+        public void viewAccepted(View new_view) {
+          System.out.println("** view: " + new_view);
+        }
+
+        public void receive (Message msg) {
+          System.out.println("received: " + msg);
+        }
+      });
+      disp = new RpcDispatcher(channel, this);
       try {
-        channel.setReceiver(this);
         channel.connect("toyota");
       } catch (Exception e) {
       }
-    }
-
-    public void viewAccepted(View new_view) {
-      System.out.println("** view: " + new_view);
-    }
-
-    public void receive (Message msg) {
-      System.out.println("received: " + msg.getSrc() + ", " + msg.getObject());
     }
 
     public void send (String str) {
       try {
         Message msg = new Message(null, null, str);
         channel.send(msg);
+        System.out.println("sent");
       } catch (Exception e) {
         e.printStackTrace();
       }
