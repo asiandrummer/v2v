@@ -72,7 +72,7 @@ public class JgroupsRpc extends ReceiverAdapter {
 
     public String getAlertMessage () {
       if (hasAlert) {
-        return ret = "ALERT detected";
+        return "ALERT detected";
       }
       return "";
     }
