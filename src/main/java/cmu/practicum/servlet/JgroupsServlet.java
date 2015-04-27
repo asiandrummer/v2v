@@ -41,33 +41,6 @@ public class JgroupsServlet  extends HttpServlet {
 
   public void doGet(HttpServletRequest req, HttpServletResponse rsp)
     throws ServletException, IOException {
-    rsp.setHeader("Access-Control-Allow-Origin", "*");
-    rsp.setContentType("application/json");
-
-    PrintWriter pw = rsp.getWriter();
-
-    RspList<Vehicle> rsp_list = jrpc.dispatch(
-      ResponseMode.GET_ALL,
-      5000,
-      "getVehicle",
-      new Vehicle(),
-      Vehicle.class
-    );
-    List<Vehicle> it = rsp_list.getResults();
-
-    String vehicleNames = "";
-    float avgSpeed = 0;
-    for (Vehicle sinfo: it){
-      vehicleNames += sinfo.getVehicleName() + " ";
-      avgSpeed += sinfo.getSpeed();
-    }
-    avgSpeed = avgSpeed / it.size();
-    vehicleNames = vehicleNames.trim();
-
-    pw.println("{");
-    pw.println("\"names\": \"" + vehicleNames + "\", ");
-    pw.println("\"average_speed\": \"" + avgSpeed + "\"");
-    pw.println("}");
   }
 
   public void doPost(HttpServletRequest req, HttpServletResponse rsp)
@@ -104,6 +77,9 @@ public class JgroupsServlet  extends HttpServlet {
 
     for (Vehicle sinfo: it){
       vehicleNames += sinfo.getVehicleName() + " ";
+      if (sinfo.getVehicleName().compareTo(java.net.InetAddress.getLocalHost().getHostName()) == 0) {
+        sinfo.setSpeed(speed);
+      }
       avgSpeed += sinfo.getSpeed();
     }
     avgSpeed = avgSpeed / it.size();

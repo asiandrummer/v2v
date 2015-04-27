@@ -22,6 +22,7 @@ public class JgroupsRpc extends ReceiverAdapter {
     String        props; // set by application
     public static RpcDispatcher      disp;
     public static HashMap<String, Integer> vehicles;
+    int speed = 0;
     boolean hasAlert = false;
 
     public void start() throws Exception {
