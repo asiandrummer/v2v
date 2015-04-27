@@ -47,13 +47,16 @@ public class Vehicle extends CommonAPI {
     this.hasAlert = alert;
   }
 
-  public void execute() {
-    Random rdn = new Random();
-    //this.speed = rdn.nextInt(30) + 50;
+  public void setVehicleName() {
     try {
       this.vehicleName = java.net.InetAddress.getLocalHost().getHostName();
     } catch (UnknownHostException e) {
       e.printStackTrace();
     }
+  }
+
+  public void execute() {
+    Random rdn = new Random();
+    //this.speed = rdn.nextInt(30) + 50;
   }
 }

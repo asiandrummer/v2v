@@ -28,6 +28,7 @@ public class JgroupsServlet  extends HttpServlet {
   public void init() {
     System.setProperty("java.net.preferIPv4Stack" , "true");
     vehicle = new Vehicle();
+    vehicle.setVehicleName();
     jrpc = new JgroupsRpc();
 
     try {
@@ -123,7 +124,6 @@ public class JgroupsServlet  extends HttpServlet {
     avgSpeed = avgSpeed / it.size();
     vehicleNames = vehicleNames.trim();
     alertMessage = alertMessage.trim();
-    System.out.println(speed + " " +  hasAlert + " " + clusterHasAlert);
 
     pw.println("{");
     pw.println("\"names\": \"" + vehicleNames + "\", ");
