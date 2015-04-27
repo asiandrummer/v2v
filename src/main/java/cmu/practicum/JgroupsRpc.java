@@ -66,15 +66,15 @@ public class JgroupsRpc extends ReceiverAdapter {
     }
 
     public <T extends CommonAPI<?>> T alert(T appObj) throws Exception {
-      if (!hasAlert) {
-        appObj.setHasAlert("false");
-      } else {
-        appObj.setHasAlert("true");
-      }
-
       hasAlert = !hasAlert;
-      System.out.println(hasAlert);
       return appObj;
+    }
+
+    public String getAlertMessage () {
+      if (hasAlert) {
+        return ret = "ALERT detected";
+      }
+      return "";
     }
 
     public <T> RspList<T> dispatch(

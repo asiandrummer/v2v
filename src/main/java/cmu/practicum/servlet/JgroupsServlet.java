@@ -100,7 +100,6 @@ public class JgroupsServlet  extends HttpServlet {
     List<Vehicle> it = rsp_list.getResults();
 
     String vehicleNames = "";
-    String alertMessage = "";
     float avgSpeed = 0;
 
     for (Vehicle sinfo: it){
@@ -109,7 +108,6 @@ public class JgroupsServlet  extends HttpServlet {
     }
     avgSpeed = avgSpeed / it.size();
     vehicleNames = vehicleNames.trim();
-    alertMessage = alertMessage.trim();
 
     if (hasAlert.compareTo("true") == 0) {
       RspList<Vehicle> rsp_list_alert = jrpc.dispatch(
@@ -119,10 +117,9 @@ public class JgroupsServlet  extends HttpServlet {
         new Vehicle(),
         Vehicle.class
       );
-
-      List<Vehicle> it_alert = rsp_list_alert.getResults();
-      alertMessage = "ALERT detected: " + jrpc.getLogicalName();
     }
+
+    String alertMessage = jrpc.getAlertMessage();
 
     pw.println("{");
     pw.println("\"names\": \"" + vehicleNames + "\", ");
