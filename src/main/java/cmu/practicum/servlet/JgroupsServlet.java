@@ -98,38 +98,35 @@ public class JgroupsServlet  extends HttpServlet {
     );
 
     List<Vehicle> it = rsp_list.getResults();
-    jrpc.send("test");
 
     String vehicleNames = "";
     String alertMessage = "";
-    String clusterHasAlert = "false";
     float avgSpeed = 0;
 
     for (Vehicle sinfo: it){
       vehicleNames += sinfo.getVehicleName() + " ";
-      /*
-      if (sinfo.getVehicleName().compareTo(java.net.InetAddress.getLocalHost().getHostName()) == 0) {
-        sinfo.setSpeed(speed);
-        sinfo.setHasAlert(hasAlert);
-      }*/
-
-      if (sinfo.getHasAlert() != null &&
-          sinfo.getHasAlert().compareTo("false") != 0) {
-        System.out.println(sinfo.getHasAlert());
-        clusterHasAlert = "true";
-        alertMessage += "There has been an alert: " + sinfo.getVehicleName() + "\n";
-      }
-
       avgSpeed += sinfo.getSpeed();
     }
     avgSpeed = avgSpeed / it.size();
     vehicleNames = vehicleNames.trim();
     alertMessage = alertMessage.trim();
 
+    if (hasAlert.compareTo("true") == 0) {
+      RspList<Vehicle> rsp_list_alert = jrpc.dispatch(
+        ResponseMode.GET_ALL,
+        5000,
+        "alert",
+        new Vehicle(),
+        Vehicle.class
+      );
+
+      List<Vehicle> it_alert = rsp_list_alert.getResults();
+      alertMessage = "ALERT detected: " + jrpc.getLogicalName();
+    }
+
     pw.println("{");
     pw.println("\"names\": \"" + vehicleNames + "\", ");
     pw.println("\"average_speed\": \"" + avgSpeed + "\", ");
-    pw.println("\"hasAlert\": \"" + clusterHasAlert + "\", ");
     pw.println("\"alertMessage\": \"" + alertMessage + "\"");
     pw.println("}");
   }

@@ -38,7 +38,6 @@ public class Vehicle extends CommonAPI {
     return this.hasAlert;
   }
 
-  /*
   public void setSpeed(int speed) {
     this.speed = speed;
   }
@@ -46,7 +45,6 @@ public class Vehicle extends CommonAPI {
   public void setHasAlert(String alert) {
     this.hasAlert = alert;
   }
-  */
 
   public void execute() {
     try {

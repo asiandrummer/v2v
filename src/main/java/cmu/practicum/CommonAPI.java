@@ -12,6 +12,10 @@ public class CommonAPI<T> implements Serializable {
     /* stub for extending classes using generics*/
   }
 
-  public void setSpeed() {
+  public void setHasAlert(String str) {
+  }
+
+  public String getHasAlert() {
+    return null;
   }
 }

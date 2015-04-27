@@ -7,6 +7,7 @@ import org.jgroups.JChannel;
 import org.jgroups.View;
 import org.jgroups.ReceiverAdapter;
 import org.jgroups.Message;
+import org.jgroups.Address;
 import org.jgroups.blocks.MethodCall;
 import org.jgroups.blocks.RequestOptions;
 import org.jgroups.blocks.ResponseMode;
@@ -21,6 +22,7 @@ public class JgroupsRpc extends ReceiverAdapter {
     String        props; // set by application
     public static RpcDispatcher      disp;
     public static HashMap<String, Integer> vehicles;
+    boolean hasAlert = false;
 
     public void start() throws Exception {
       vehicles = new HashMap<String, Integer>();
@@ -44,8 +46,7 @@ public class JgroupsRpc extends ReceiverAdapter {
     public void send (String str) {
       try {
         Message msg = new Message(null, null, str);
-        channel.send(msg);
-        System.out.println("sent");
+        channel.send(null, msg);
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -64,6 +65,18 @@ public class JgroupsRpc extends ReceiverAdapter {
       return appObj;
     }
 
+    public <T extends CommonAPI<?>> T alert(T appObj) throws Exception {
+      if (!hasAlert) {
+        appObj.setHasAlert("false");
+      } else {
+        appObj.setHasAlert("true");
+      }
+
+      hasAlert = !hasAlert;
+      System.out.println(hasAlert);
+      return appObj;
+    }
+
     public <T> RspList<T> dispatch(
       ResponseMode responseMode,
       int timeout,
@@ -75,7 +88,7 @@ public class JgroupsRpc extends ReceiverAdapter {
       RequestOptions opts = new RequestOptions(ResponseMode.GET_ALL, timeout);
       try {
         rsp_list = JgroupsRpc.disp.callRemoteMethods(null,
-          "getVehicle",
+          methodName,
           new Object[]{value},
           new Class[]{valType},
           opts);
