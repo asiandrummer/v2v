@@ -109,8 +109,8 @@ public class JgroupsServlet  extends HttpServlet {
         sinfo.setHasAlert(hasAlert);
       }
 
-      if (sinfo.getHasAlert().compareTo("false") != 0 &&
-          sinfo.getHasAlert() != null) {
+      if (sinfo.getHasAlert() != null &&
+          sinfo.getHasAlert().compareTo("false") != 0) {
         System.out.println(sinfo.getHasAlert());
         clusterHasAlert = "true";
         alertMessage += "There has been an alert: " + sinfo.getVehicleName() + "\n";
