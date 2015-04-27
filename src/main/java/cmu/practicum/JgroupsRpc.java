@@ -17,20 +17,19 @@ import org.jgroups.util.Util;
 import cmu.practicum.app.Vehicle;
 
 public class JgroupsRpc extends ReceiverAdapter {
-    JChannel           channel;
-    public static  RpcDispatcher      disp;
-    String             props; // set by application
+    JChannel      channel;
+    String        props; // set by application
+    public static RpcDispatcher      disp;
     public static HashMap<String, Integer> vehicles;
 
     public void start() throws Exception {
       vehicles = new HashMap<String, Integer>();
-      channel=new JChannel(props);
-      disp=new RpcDispatcher(channel, this);
+      channel  = new JChannel(props);
+      disp     = new RpcDispatcher(channel, this);
       try {
         channel.setReceiver(this);
         channel.connect("toyota");
       } catch (Exception e) {
-        e.printStackTrace();
       }
     }
 
@@ -47,6 +46,7 @@ public class JgroupsRpc extends ReceiverAdapter {
         Message msg = new Message(null, null, str);
         channel.send(msg);
       } catch (Exception e) {
+        e.printStackTrace();
       }
     }
 
@@ -77,12 +77,12 @@ public class JgroupsRpc extends ReceiverAdapter {
       } catch (Exception e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
-        rsp_list=null;
+        rsp_list = null;
       }
       return rsp_list;
     }
 
     public static void main(String[] args) throws Exception {
-        new JgroupsRpc().start();
+      new JgroupsRpc().start();
     }
 }

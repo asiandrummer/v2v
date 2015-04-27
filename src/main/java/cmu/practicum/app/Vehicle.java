@@ -19,6 +19,7 @@ public class Vehicle extends CommonAPI {
 
   int speed;
   String vehicleName;
+  String hasAlert;
 
   /**
   * @return distance  distance of the vehicle
@@ -34,13 +35,21 @@ public class Vehicle extends CommonAPI {
     return this.vehicleName;
   }
 
+  public String getHasAlert() {
+    return this.hasAlert;
+  }
+
   public void setSpeed(int speed) {
     this.speed = speed;
   }
 
+  public void setHasAlert(String alert) {
+    this.hasAlert = alert;
+  }
+
   public void execute() {
     Random rdn = new Random();
-    this.speed = rdn.nextInt(30) + 50;
+    //this.speed = rdn.nextInt(30) + 50;
     try {
       this.vehicleName = java.net.InetAddress.getLocalHost().getHostName();
     } catch (UnknownHostException e) {

@@ -5,6 +5,10 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+import java.lang.StringBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -71,7 +75,18 @@ public class JgroupsServlet  extends HttpServlet {
     rsp.setContentType("application/json");
 
     PrintWriter pw = rsp.getWriter();
-    jrpc.send("test message");
+
+    StringBuilder stringBuilder = new StringBuilder(1000);
+    Scanner s = new Scanner(req.getInputStream());
+
+    while (s.hasNextLine()) {
+      stringBuilder.append(s.nextLine());
+    }
+
+    StringTokenizer st = new StringTokenizer(stringBuilder.toString(), ",");
+
+    int speed = Integer.parseInt(st.nextToken());
+    String hasAlert = st.nextToken();
 
     RspList<Vehicle> rsp_list = jrpc.dispatch(
       ResponseMode.GET_ALL,
@@ -83,17 +98,36 @@ public class JgroupsServlet  extends HttpServlet {
     List<Vehicle> it = rsp_list.getResults();
 
     String vehicleNames = "";
+    String alertMessage = "";
+    String clusterHasAlert = "false";
     float avgSpeed = 0;
+
     for (Vehicle sinfo: it){
       vehicleNames += sinfo.getVehicleName() + " ";
+      if (sinfo.getVehicleName().compareTo(java.net.InetAddress.getLocalHost().getHostName()) == 0) {
+        sinfo.setSpeed(speed);
+        sinfo.setHasAlert(hasAlert);
+      }
+
+      if (sinfo.getHasAlert().compareTo("false") != 0 &&
+          sinfo.getHasAlert() != null) {
+        System.out.println(sinfo.getHasAlert());
+        clusterHasAlert = "true";
+        alertMessage += "There has been an alert: " + sinfo.getVehicleName() + "\n";
+      }
+
       avgSpeed += sinfo.getSpeed();
     }
     avgSpeed = avgSpeed / it.size();
     vehicleNames = vehicleNames.trim();
+    alertMessage = alertMessage.trim();
+    System.out.println(speed + " " +  hasAlert + " " + clusterHasAlert);
 
     pw.println("{");
     pw.println("\"names\": \"" + vehicleNames + "\", ");
-    pw.println("\"average_speed\": \"" + avgSpeed + "\"");
+    pw.println("\"average_speed\": \"" + avgSpeed + "\", ");
+    pw.println("\"hasAlert\": \"" + clusterHasAlert + "\", ");
+    pw.println("\"alertMessage\": \"" + alertMessage + "\"");
     pw.println("}");
   }
 }
