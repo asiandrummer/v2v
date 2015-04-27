@@ -47,12 +47,8 @@ public class Vehicle extends CommonAPI {
     this.hasAlert = alert;
   }
 
-  public void setVehicleName() {
-    try {
-      this.vehicleName = java.net.InetAddress.getLocalHost().getHostName();
-    } catch (UnknownHostException e) {
-      e.printStackTrace();
-    }
+  public void setVehicleName(String name) {
+    this.vehicleName = name;
   }
 
   public void execute() {

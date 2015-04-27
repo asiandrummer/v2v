@@ -28,11 +28,11 @@ public class JgroupsServlet  extends HttpServlet {
   public void init() {
     System.setProperty("java.net.preferIPv4Stack" , "true");
     vehicle = new Vehicle();
-    vehicle.setVehicleName();
     jrpc = new JgroupsRpc();
 
     try {
       jrpc.start();
+      vehicle.setVehicleName(jrpc.getLogicalName());
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
