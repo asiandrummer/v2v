@@ -59,7 +59,6 @@ public class JgroupsRpc extends ReceiverAdapter {
     }
 
     public <T extends CommonAPI<?>> T getVehicle(T appObj) throws Exception {
-      System.out.println(channel.getName());
       appObj.execute();
       return appObj;
     }

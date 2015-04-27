@@ -27,12 +27,10 @@ public class JgroupsServlet  extends HttpServlet {
   private static Vehicle vehicle;
   public void init() {
     System.setProperty("java.net.preferIPv4Stack" , "true");
-    vehicle = new Vehicle();
     jrpc = new JgroupsRpc();
 
     try {
       jrpc.start();
-      vehicle.setVehicleName(jrpc.getLogicalName());
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -95,9 +93,10 @@ public class JgroupsServlet  extends HttpServlet {
       ResponseMode.GET_ALL,
       5000,
       "getVehicle",
-      this.vehicle,
+      new Vehicle(),
       Vehicle.class
     );
+
     List<Vehicle> it = rsp_list.getResults();
 
     String vehicleNames = "";
@@ -121,6 +120,7 @@ public class JgroupsServlet  extends HttpServlet {
 
       avgSpeed += sinfo.getSpeed();
     }
+    System.out.println(vehicleNames);
     avgSpeed = avgSpeed / it.size();
     vehicleNames = vehicleNames.trim();
     alertMessage = alertMessage.trim();

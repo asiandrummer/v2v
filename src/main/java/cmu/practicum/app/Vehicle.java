@@ -3,7 +3,6 @@ package cmu.practicum.app;
 import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import org.jgroups.blocks.RequestOptions;
 import org.jgroups.blocks.ResponseMode;
@@ -47,12 +46,11 @@ public class Vehicle extends CommonAPI {
     this.hasAlert = alert;
   }
 
-  public void setVehicleName(String name) {
-    this.vehicleName = name;
-  }
-
   public void execute() {
-    Random rdn = new Random();
-    //this.speed = rdn.nextInt(30) + 50;
+    try {
+      this.vehicleName = java.net.InetAddress.getLocalHost().getHostName();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
