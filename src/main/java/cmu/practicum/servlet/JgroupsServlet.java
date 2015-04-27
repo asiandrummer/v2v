@@ -77,9 +77,6 @@ public class JgroupsServlet  extends HttpServlet {
 
     for (Vehicle sinfo: it){
       vehicleNames += sinfo.getVehicleName() + " ";
-      if (sinfo.getVehicleName().compareTo(java.net.InetAddress.getLocalHost().getHostName()) == 0) {
-        sinfo.setSpeed(speed);
-      }
       avgSpeed += sinfo.getSpeed();
     }
     avgSpeed = avgSpeed / it.size();
