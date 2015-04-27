@@ -24,8 +24,10 @@ import cmu.practicum.app.Vehicle;
 
 public class JgroupsServlet  extends HttpServlet {
   private static JgroupsRpc jrpc;
+  private static Vehicle vehicle;
   public void init() {
     System.setProperty("java.net.preferIPv4Stack" , "true");
+    vehicle = new Vehicle();
     jrpc = new JgroupsRpc();
 
     try {
@@ -92,7 +94,7 @@ public class JgroupsServlet  extends HttpServlet {
       ResponseMode.GET_ALL,
       5000,
       "getVehicle",
-      new Vehicle(),
+      this.vehicle,
       Vehicle.class
     );
     List<Vehicle> it = rsp_list.getResults();
