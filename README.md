@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # v2v
 a v2v example repo
 =======
@@ -29,4 +29,4 @@ and change {$TOMCAT_DIR}/WEB-INF/web.xml to deploy the servlet.
       <servlet-name>jgroupsrpc</servlet-name>
       <url-pattern>{CHOOSE_YOUR_URL_HERE}</url-pattern>
     </servlet-mapping>
->>>>>>> 340c1c72a0106a8271c9eabd2d92ed63f35c3a6e
+
