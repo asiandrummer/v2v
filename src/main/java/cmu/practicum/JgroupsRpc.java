@@ -40,6 +40,7 @@ public class JgroupsRpc extends ReceiverAdapter {
       disp = new RpcDispatcher(channel, this);
       try {
         channel.connect("toyota");
+        System.out.println(channel.getView());
       } catch (Exception e) {
       }
     }
